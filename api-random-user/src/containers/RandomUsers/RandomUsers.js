@@ -1,51 +1,37 @@
 import React, { useState, useEffect } from 'react'
 // import User from '../../components/User';
-import { List, ListItem, ListItemText, Box, Pagination, Typography } from "@mui/material"
+import { List, ListItem, ListItemText, Stack, LinearProgress, Divider } from "@mui/material"
 import InfoIcon from '@mui/icons-material/Info';
 import { getRandomUsers } from '../../api/getRandomUsers';
 
-const RandomUsers = () => {
+const RandomUsers = ({ page, resultsCount, gender, nation }) => {
     const [randomUsers, setRandomUsers] = useState([]);
-    const [resultsCount, setResultsCount] = useState(5);
-    const [page, setPage] = useState(1);
-
-    const switchPage = (event, pageNumber) => {
-        setPage(pageNumber)
-    }
 
     useEffect(() => {
-        getRandomUsers(page, resultsCount)
+        getRandomUsers(page, resultsCount, gender, nation)
             .then(data => setRandomUsers(data.results));
 
-    }, [page, resultsCount]);
-
+    }, [page, resultsCount, gender, nation]);
     console.log(randomUsers)
 
     return (
         <>
-            <h2>random users</h2>
-            <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'silver' }}>
-                <Typography variant="h6">Page:{page} </Typography>
-                <Pagination
-                    showFirstButton
-                    showLastButton
-                    count={5}
-                    page={page}
-                    onChange={switchPage}
-                    variant="outlined"
-                    color="primary"
-                    shape="rounded"
-                />
-                <List>
+            <h2>Random Users</h2>
+            <Stack
+                sx={{ width: '100%', bgcolor: 'white' }}
+                divider={<Divider orientation="horizontal" variant='fullWidth' />}
+            >
+                <List maxWidth>
+                    {/* <LinearProgress /> */}
                     {randomUsers.map((user, index) =>
-                        <ListItem key={index}>
+                        <ListItem key={index} maxWidth>
                             <ListItemText
                                 primary={`${user.name.title} ${user.name.first} ${user.name.last}`}
                                 secondary={`${user.cell}, ${user.phone}`} />
                             <InfoIcon />
                         </ListItem>)}
                 </List>
-            </Box>
+            </Stack>
         </>
     )
 }
