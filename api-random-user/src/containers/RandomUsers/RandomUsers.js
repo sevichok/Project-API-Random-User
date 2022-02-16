@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { getRandomUsers } from '../../api/getRandomUsers';
 import { Container, Pagination, FormGroup, FormControlLabel, Switch, FormControl, Stack, Typography } from '@mui/material';
 // import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { useModeContext } from '../../providers/ThemeProviders';
+import { useTheme } from '../../providers/ThemeProviders';
 
 import User from '../../components/User/User';
 import FormControlNationality from '../../components/FormControls/FormControlNationality';
@@ -12,12 +12,12 @@ import FormControlResults from '../../components/FormControls/FormControlResults
 const RandomUsers = () => {
     const [randomUsers, setRandomUsers] = useState([]);
     const [page, setPage] = useState(1);
-    const [resultsCount, setResultsCount] = useState(10);
+    const [resultsCount, setResultsCount] = useState(4);
     const [checked, setChecked] = useState(false);
     const [nation, setNationality] = useState("us");
     const gender = (checked ? "male" : "female");
 
-    const { toggleColorMode } = useModeContext();
+    const { toggleTheme } = useTheme();
 
     const switchPage = (_, pageNumber) => {
         setPage(pageNumber)
@@ -39,18 +39,14 @@ const RandomUsers = () => {
     console.log(randomUsers)
 
     return (<>
-        <Container sx={{ backgroundColor: 'background.default' }}>
-            <Stack direction="row" spacing={1} orientation="vertical" alignItems="baseline" justifyContent="space-around" >
-                <FormControl >
-                    <FormControlLabel
-                        control={
-                            <Switch color="secondary"
-                                checked={checked}
-                                onChange={handleChangeGender} />} label={gender.substring(0, 1).toUpperCase() + gender.substring(1)} />
-                </FormControl>
+        <Container sx={{ backgroundColor: 'background.default', pt: 3, borderRadius: 2, }}>
+            <Stack direction="row" spacing={1} orientation="vertical" alignItems="center" justifyContent="space-around" >
+                <FormGroup sx={{ display: 'inline', }}>
+                    <Typography color="textPrimary">{gender.substring(0, 1).toUpperCase() + gender.substring(1)}</Typography>
+                    <Switch color="secondary" checked={checked} onChange={handleChangeGender} />
+                </FormGroup>
                 <Typography
-                    color="textPrimary"
-                    variant="h6">
+                    color="textPrimary">
                     Page: {page}
                 </Typography>
                 <Pagination
@@ -71,24 +67,18 @@ const RandomUsers = () => {
                     nation={nation}
                     handleChangeNation={handleChangeNation}
                 />
-                <FormGroup row>
-                    <FormControlLabel
-                        control={
-                            <Switch color="secondary"
-                                // checked={check}
-                                onChange={toggleColorMode}
-                            />
-                        }
-                        label={"theme"}
-                        labelPlacement="top" />
-                    <FormControlLabel
-                        control={
-                            <Switch color="secondary" />}
-                        label={"language"}
-                        labelPlacement="top" />
+                <FormGroup row sx={{ gap: 2 }}>
+                    <FormGroup row sx={{ display: 'inline', }}>
+                        <Typography color="textPrimary">Theme</Typography>
+                        <Switch color="secondary" onChange={toggleTheme} />
+                    </FormGroup>
+                    <FormGroup row sx={{ display: 'inline', }}>
+                        <Typography color="textPrimary">Language</Typography>
+                        <Switch color="secondary" />
+                    </FormGroup>
                 </FormGroup>
             </Stack>
-            <Stack sx={{ width: '100%' }}>
+            <Stack sx={{ width: '100%', pt: 3, }}>
                 <Typography color="textPrimary">Random Users</Typography>
                 {randomUsers?.map((user) => <User key={user.login.uuid} {...user} />)}
             </Stack>
