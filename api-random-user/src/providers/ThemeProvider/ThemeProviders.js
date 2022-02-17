@@ -1,6 +1,6 @@
 import React, { useState, useContext, createContext, useCallback } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-
+import { Box } from "@mui/material";
 
 export const ThemeContext = createContext({});
 export const useTheme = () => useContext(ThemeContext);
@@ -26,7 +26,7 @@ const ThemeProviders = ({ children }) => {
     return (<>
         <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
             <ThemeContext.Provider value={{ theme, toggleTheme }}>
-                {children}
+                <Box bgcolor='background.default' minHeight="100vh" p={3}>{children}</Box>
             </ThemeContext.Provider >
         </ThemeProvider>
     </>
@@ -34,10 +34,3 @@ const ThemeProviders = ({ children }) => {
 }
 
 export default ThemeProviders
-
-    // const [mode, setMode] = useState('light');
-    // const colorMode = () => ({
-    //     toggleColorMode: () => {
-    //         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-    //     },
-    // });

@@ -1,16 +1,18 @@
 import React from 'react';
-import { FormControl, Select, InputLabel, MenuItem } from "@mui/material"
+import { FormControl, Select, InputLabel, MenuItem } from "@mui/material";
+import { useLocales } from "../../providers/LocalesProvider/LocalesProviders";
 
-function FormControlNationality({handleChangeNation, nation}) {
+function FormControlNationality({ handleChangeNation, nation }) {
+    const { trans } = useLocales();
     return (
         <>
-            <FormControl >
-                <InputLabel id="demo-simple-select-autowidth-label">Nationality</InputLabel>
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-autowidth-label" >{trans.nat}</InputLabel>
                 <Select
                     labelId="demo-simple-select-autowidth-label"
                     id="demo-simple-autowidth-select"
                     value={nation}
-                    label="Nationality"
+                    label={trans.nat}
                     onChange={handleChangeNation}>
                     <MenuItem value={"us"}>US</MenuItem><MenuItem value={"tr"}>TR</MenuItem><MenuItem value={"ir"}>IR</MenuItem>
                     <MenuItem value={"gb"}>GB</MenuItem><MenuItem value={"nz"}>NZ</MenuItem><MenuItem value={"ie"}>IE</MenuItem>

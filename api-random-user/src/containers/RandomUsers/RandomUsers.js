@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { getRandomUsers } from '../../api/getRandomUsers';
-import { Container, Pagination, FormGroup, FormControlLabel, Switch, FormControl, Stack, Typography } from '@mui/material';
-// import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { useTheme } from '../../providers/ThemeProviders';
+import { Container, Pagination, FormGroup, Switch, Stack, Typography, Grid } from '@mui/material';
+import { useTheme } from '../../providers/ThemeProvider/ThemeProviders';
+import { useLocales } from '../../providers/LocalesProvider/LocalesProviders';
 
 import User from '../../components/User/User';
 import FormControlNationality from '../../components/FormControls/FormControlNationality';
@@ -18,6 +18,7 @@ const RandomUsers = () => {
     const gender = (checked ? "male" : "female");
 
     const { toggleTheme } = useTheme();
+    const { trans, toggleLang } = useLocales();
 
     const switchPage = (_, pageNumber) => {
         setPage(pageNumber)
@@ -36,50 +37,59 @@ const RandomUsers = () => {
         getRandomUsers(page, resultsCount, gender, nation)
             .then(data => setRandomUsers(data.results));
     }, [page, resultsCount, gender, nation]);
-    console.log(randomUsers)
+    console.log(randomUsers);
 
     return (<>
-        <Container sx={{ backgroundColor: 'background.default', pt: 3, borderRadius: 2, }}>
-            <Stack direction="row" spacing={1} orientation="vertical" alignItems="center" justifyContent="space-around" >
-                <FormGroup sx={{ display: 'inline', }}>
-                    <Typography color="textPrimary">{gender.substring(0, 1).toUpperCase() + gender.substring(1)}</Typography>
-                    <Switch color="secondary" checked={checked} onChange={handleChangeGender} />
-                </FormGroup>
-                <Typography
-                    color="textPrimary">
-                    Page: {page}
-                </Typography>
-                <Pagination
-                    size="small"
-                    showFirstButton
-                    showLastButton
-                    count={5}
-                    page={page}
-                    onChange={switchPage}
-                    variant="outlined"
-                    color="primary"
-                />
-                <FormControlResults
-                    handleChangeResultsCount={handleChangeResultsCount}
-                    resultsCount={resultsCount}
-                />
-                <FormControlNationality
-                    nation={nation}
-                    handleChangeNation={handleChangeNation}
-                />
-                <FormGroup row sx={{ gap: 2 }}>
-                    <FormGroup row sx={{ display: 'inline', }}>
-                        <Typography color="textPrimary">Theme</Typography>
-                        <Switch color="secondary" onChange={toggleTheme} />
+        <Container maxWidth="lg" sx={{ borderRadius: 2, }}>
+            <Grid container direction="row" spacing={0.5} orientation="vertical" alignItems="center" justifyContent="space-around" >
+                <Grid item xs={1}>
+                    <FormGroup sx={{ display: 'inline', }}>
+                        <Typography color="textPrimary">{trans[gender]}</Typography>
+                        <Switch color="secondary" checked={checked} onChange={handleChangeGender} />
                     </FormGroup>
-                    <FormGroup row sx={{ display: 'inline', }}>
-                        <Typography color="textPrimary">Language</Typography>
-                        <Switch color="secondary" />
+                </Grid>
+                <Grid item xs={1}>
+                    <Typography color="textPrimary">{trans.page}: {page}</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                    <Pagination
+                        size="small"
+                        showFirstButton
+                        showLastButton
+                        count={5}
+                        page={page}
+                        onChange={switchPage}
+                        variant="outlined"
+                        color="primary"
+                    />
+                </Grid>
+                <Grid item xs={2}>
+                    <FormControlResults
+                        handleChangeResultsCount={handleChangeResultsCount}
+                        resultsCount={resultsCount}
+                    />
+                </Grid>
+                <Grid item xs={2}>
+                    <FormControlNationality
+                        nation={nation}
+                        handleChangeNation={handleChangeNation}
+                    />
+                </Grid>
+                <Grid item xs={2}>
+                    <FormGroup row sx={{ gap: 3 }}>
+                        <FormGroup row sx={{ display: 'inline', }}>
+                            <Typography color="textPrimary">{trans.th}</Typography>
+                            <Switch color="secondary" onChange={toggleTheme} />
+                        </FormGroup>
+                        <FormGroup row sx={{ display: 'inline', }}>
+                            <Typography color="textPrimary">{trans.lang}</Typography>
+                            <Switch color="secondary" onChange={toggleLang} />
+                        </FormGroup>
                     </FormGroup>
-                </FormGroup>
-            </Stack>
+                </Grid>
+            </Grid>
             <Stack sx={{ width: '100%', pt: 3, }}>
-                <Typography color="textPrimary">Random Users</Typography>
+                <Typography color="textPrimary">{trans.users}</Typography>
                 {randomUsers?.map((user) => <User key={user.login.uuid} {...user} />)}
             </Stack>
         </Container>
@@ -87,16 +97,3 @@ const RandomUsers = () => {
 }
 
 export default RandomUsers
-
-
-// const [picked, setPickedTheme] = useState(false);
-    // const pickedThemeMode = (picked ? "dark" : "light");
-
-    // const handleChangeTheme = () => {
-    //     setPickedTheme(!picked);
-    // };
-    // const theme = createTheme({
-    //     palette: {
-    //         mode: pickedThemeMode,
-    //     },
-    // });
