@@ -32,7 +32,12 @@ export const eng = {
   loc: "Location",
 };
 
-const LocalesContext = createContext({});
+// const langs = { rus, eng };
+
+const LocalesContext = createContext({
+  trans: rus ?? eng,
+  toggleLang: () => {},
+});
 export const useLocales = () => useContext(LocalesContext);
 
 const LocalesProviders: React.FC = ({ children }) => {
