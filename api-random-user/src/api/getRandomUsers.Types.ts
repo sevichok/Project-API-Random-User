@@ -1,8 +1,4 @@
 export interface DataTypes {
-  results: UserTypes[];
-}
-
-export interface UserTypes {
   gender: string;
   cell: string;
   name: UserName;
