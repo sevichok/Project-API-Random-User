@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 export const ThemeContext = createContext({});
 export const useTheme = () => useContext(ThemeContext);
 
-const ThemeProviders = ({ children }) => {
+const ThemeProviders: React.FC = ({ children }) => {
     const [theme, setTheme] = useState("light");
 
     const toggleTheme = useCallback(() => {
