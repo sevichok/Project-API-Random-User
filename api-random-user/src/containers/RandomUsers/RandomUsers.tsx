@@ -9,16 +9,17 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
-import { SelectChangeEvent } from '@mui/material/Select';
+import { SelectChangeEvent } from "@mui/material/Select";
 import { useTheme } from "../../providers/ThemeProvider/ThemeProviders";
 import { useLocales } from "../../providers/LocalesProvider/LocalesProviders";
 
 import User from "../../components/User/User";
 import FormControlNationality from "../../components/FormControls/FormControlNationality";
 import FormControlResults from "../../components/FormControls/FormControlResults";
+import {DataTypes} from "../../api/getRandomUsers.Types"
 
 const RandomUsers: React.FunctionComponent = () => {
-  const [randomUsers, setRandomUsers] = useState([]);
+  const [randomUsers, setRandomUsers] = useState<DataTypes[]>([]);
   const [page, setPage] = useState(1);
   const [resultsCount, setResultsCount] = useState("4");
   const [checked, setChecked] = useState(false);
@@ -28,18 +29,13 @@ const RandomUsers: React.FunctionComponent = () => {
   const { toggleTheme } = useTheme();
   const { trans, toggleLang } = useLocales();
 
-  const switchPage = (
-    _: React.ChangeEvent<unknown>,
-    pageNumber: number
-  ) => {
+  const switchPage = (_: React.ChangeEvent<unknown>, pageNumber: number) => {
     setPage(pageNumber);
   };
   const handleChangeGender = () => {
     setChecked(!checked);
   };
-  const handleChangeResultsCount = (
-    event: SelectChangeEvent,
-  ) => {
+  const handleChangeResultsCount = (event: SelectChangeEvent) => {
     setResultsCount(event.target.value as string);
   };
   const handleChangeNation = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,8 +113,8 @@ const RandomUsers: React.FunctionComponent = () => {
         </Grid>
         <Stack sx={{ width: "100%", pt: 3 }}>
           <Typography color="textPrimary">{trans.users}</Typography>
-          {randomUsers?.map((user,index) => (
-            <User key={index} {...user} />
+          {randomUsers?.map((user) => (
+            <User key={user.login.uuid} {...user} />
           ))}
         </Stack>
       </Container>
