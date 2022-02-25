@@ -16,7 +16,7 @@ import { useLocales } from "../../providers/LocalesProvider/LocalesProviders";
 import User from "../../components/User/User";
 import FormControlNationality from "../../components/FormControls/FormControlNationality";
 import FormControlResults from "../../components/FormControls/FormControlResults";
-import {DataTypes} from "../../api/getRandomUsers.Types"
+import { DataTypes } from "../../api/getRandomUsers.Types";
 
 const RandomUsers: React.FunctionComponent = () => {
   const [randomUsers, setRandomUsers] = useState<DataTypes[]>([]);
@@ -38,8 +38,8 @@ const RandomUsers: React.FunctionComponent = () => {
   const handleChangeResultsCount = (event: SelectChangeEvent) => {
     setResultsCount(event.target.value as string);
   };
-  const handleChangeNation = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNationality(event.target.value);
+  const handleChangeNation = (event: SelectChangeEvent) => {
+    setNationality(event.target.value as string);
   };
 
   useEffect(() => {
