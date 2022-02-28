@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { getRandomUsers } from "../../api/getRandomUsers";
 import {
   Container,
@@ -18,7 +18,7 @@ import FormControlNationality from "../../components/FormControls/FormControlNat
 import FormControlResults from "../../components/FormControls/FormControlResults";
 import { DataTypes } from "../../api/getRandomUsers.Types";
 
-const RandomUsers: React.FunctionComponent = () => {
+const RandomUsers: React.FC = () => {
   const [randomUsers, setRandomUsers] = useState<DataTypes[]>([]);
   const [page, setPage] = useState(1);
   const [resultsCount, setResultsCount] = useState("4");
@@ -29,18 +29,24 @@ const RandomUsers: React.FunctionComponent = () => {
   const { toggleTheme } = useTheme();
   const { trans, toggleLang } = useLocales();
 
-  const switchPage = (_: React.ChangeEvent<unknown>, pageNumber: number) => {
-    setPage(pageNumber);
-  };
-  const handleChangeGender = () => {
+  const switchPage = useCallback(
+    (_: React.ChangeEvent<unknown>, pageNumber: number) => {
+      setPage(pageNumber);
+    },
+    []
+  );
+
+  const handleChangeGender = useCallback(() => {
     setChecked(!checked);
-  };
-  const handleChangeResultsCount = (event: SelectChangeEvent) => {
+  }, []);
+
+  const handleChangeResultsCount = useCallback((event: SelectChangeEvent) => {
     setResultsCount(event.target.value as string);
-  };
-  const handleChangeNation = (event: SelectChangeEvent) => {
+  }, []);
+
+  const handleChangeNation = useCallback((event: SelectChangeEvent) => {
     setNationality(event.target.value as string);
-  };
+  }, []);
 
   useEffect(() => {
     getRandomUsers(page, resultsCount, gender, nation).then((data) =>

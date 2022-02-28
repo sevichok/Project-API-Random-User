@@ -1,31 +1,40 @@
-import React, { useState, useContext, createContext, useCallback } from "react";
+import React, {
+  useState,
+  useContext,
+  createContext,
+  useCallback,
+  useEffect,
+} from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Box } from "@mui/material";
 
 export const ThemeContext = createContext({ toggleTheme: () => {}, theme: {} });
 export const useTheme = () => useContext(ThemeContext);
 
+type ThemeProps = "light" | "dark";
+
 const ThemeProviders: React.FC = ({ children }) => {
-  const [theme, setTheme] = useState("light");
+  const [mode, setMode] = useState<ThemeProps>(
+    (localStorage.getItem("theme") ?? "light") as ThemeProps
+  );
+
+  useEffect(() => {
+    localStorage.setItem("theme", mode);
+  }, [mode]);
 
   const toggleTheme = useCallback(() => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+    setMode((prev) => (prev === "dark" ? "light" : "dark"));
   }, []);
 
-  const darkTheme = createTheme({
+  const theme = createTheme({
     palette: {
-      mode: "dark",
-    },
-  });
-  const lightTheme = createTheme({
-    palette: {
-      mode: "light",
+      mode,
     },
   });
 
   return (
     <>
-      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <ThemeProvider theme={theme}>
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
           <Box bgcolor="background.default" minHeight="100vh" p={3}>
             {children}

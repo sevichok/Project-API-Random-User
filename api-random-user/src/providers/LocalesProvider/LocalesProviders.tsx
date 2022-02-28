@@ -1,4 +1,10 @@
-import React, { createContext, useState, useCallback, useContext } from "react";
+import React, {
+  createContext,
+  useState,
+  useCallback,
+  useContext,
+  useEffect,
+} from "react";
 import { LocalesTypes } from "./Locales.Types";
 
 export const rus = {
@@ -32,20 +38,26 @@ export const eng = {
   loc: "Location",
 };
 
-// const langs = { rus, eng };
-
 const LocalesContext = createContext({
   trans: rus ?? eng,
   toggleLang: () => {},
 });
 export const useLocales = () => useContext(LocalesContext);
 
+const langs = { rus, eng };
+console.log(langs);
+
 const LocalesProviders: React.FC = ({ children }) => {
-  const [lang, setLang] = useState<LocalesTypes>(eng);
+  const [lang, setLang] = useState<LocalesTypes>(rus);
+
+  // useEffect(() => {
+  //   localStorage.setItem("language", langs.eng ?? langs.rus);
+  // }, [lang]);
 
   const toggleLang = useCallback(() => {
     setLang((prev) => (prev === eng ? rus : eng));
   }, []);
+
   return (
     <LocalesContext.Provider value={{ trans: lang, toggleLang }}>
       {children}
