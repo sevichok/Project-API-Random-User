@@ -5,7 +5,6 @@ import React, {
   useContext,
   useEffect,
 } from "react";
-import { LocalesTypes, DataLangTypes } from "./Locales.Types";
 
 export const rus = {
   gender: "Пол",
@@ -42,24 +41,28 @@ const langs = { RU: rus, EN: eng };
 console.log(langs);
 
 const LocalesContext = createContext({
-  trans: langs.RU ?? langs.EN,
+  trans: langs.RU,
   toggleLang: () => {},
 });
 export const useLocales = () => useContext(LocalesContext);
 
+type LangProp = "RU" | "EN";
+
 const LocalesProviders: React.FC = ({ children }) => {
-  const [lang, setLang] = useState<LocalesTypes>(rus);
+  const [lang, setLang] = useState<LangProp>(
+    JSON.parse(localStorage.getItem("language") ?? '"RU"') as LangProp
+  );
 
   useEffect(() => {
     localStorage.setItem("language", JSON.stringify(lang));
   }, [lang]);
 
   const toggleLang = useCallback(() => {
-    setLang((prev) => (prev === eng ? rus : eng));
+    setLang((prev) => (prev === "EN" ? "RU" : "EN"));
   }, []);
 
   return (
-    <LocalesContext.Provider value={{ trans: lang, toggleLang }}>
+    <LocalesContext.Provider value={{ trans: langs[lang], toggleLang }}>
       {children}
     </LocalesContext.Provider>
   );
