@@ -36,7 +36,7 @@ const RandomUsers: React.FC = () => {
     []
   );
 
-  const handleChangeGender = useCallback(() => {
+  const handleChangeGender = useCallback((checked) => {
     setChecked(!checked);
   }, []);
 
@@ -111,7 +111,7 @@ const RandomUsers: React.FC = () => {
                 <Switch color="secondary" onChange={toggleTheme} />
               </FormGroup>
               <FormGroup row sx={{ display: "inline" }}>
-                <Typography color="textPrimary">{trans.lang}</Typography>
+                <Typography color="textPrimary">{trans.lng}</Typography>
                 <Switch color="secondary" onChange={toggleLang} />
               </FormGroup>
             </FormGroup>

@@ -6,10 +6,14 @@ export interface LocalesTypes {
   res: string;
   nat: string;
   th: string;
-  lang: string;
+  lng: string;
   users: string;
   inf: string;
   ph: string;
   email: string;
   loc: string;
+}
+
+export interface DataLangTypes {
+  lang: LocalesTypes[];
 }

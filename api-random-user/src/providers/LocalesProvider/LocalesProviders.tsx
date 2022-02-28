@@ -5,7 +5,7 @@ import React, {
   useContext,
   useEffect,
 } from "react";
-import { LocalesTypes } from "./Locales.Types";
+import { LocalesTypes, DataLangTypes } from "./Locales.Types";
 
 export const rus = {
   gender: "Пол",
@@ -15,7 +15,7 @@ export const rus = {
   res: "Кол-во результатов",
   nat: "Национальность",
   th: "Тема",
-  lang: "Язык",
+  lng: "Язык",
   users: "Пользователи",
   inf: "Информация",
   ph: "Телефон",
@@ -30,7 +30,7 @@ export const eng = {
   res: "Results",
   nat: "Nationality",
   th: "Theme",
-  lang: "Language",
+  lng: "Language",
   users: "Random Users",
   inf: "Information",
   ph: "Phone",
@@ -38,21 +38,21 @@ export const eng = {
   loc: "Location",
 };
 
+const langs = { RU: rus, EN: eng };
+console.log(langs);
+
 const LocalesContext = createContext({
-  trans: rus ?? eng,
+  trans: langs.RU ?? langs.EN,
   toggleLang: () => {},
 });
 export const useLocales = () => useContext(LocalesContext);
 
-const langs = { rus, eng };
-console.log(langs);
-
 const LocalesProviders: React.FC = ({ children }) => {
   const [lang, setLang] = useState<LocalesTypes>(rus);
 
-  // useEffect(() => {
-  //   localStorage.setItem("language", langs.eng ?? langs.rus);
-  // }, [lang]);
+  useEffect(() => {
+    localStorage.setItem("language", JSON.stringify(lang));
+  }, [lang]);
 
   const toggleLang = useCallback(() => {
     setLang((prev) => (prev === eng ? rus : eng));
