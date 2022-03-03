@@ -24,7 +24,7 @@ const RandomUsers = () => {
         setPage(pageNumber)
     }
     const handleChangeGender = () => {
-        setChecked(!checked);
+        setChecked((prev) => !prev);
     };
     const handleChangeResultsCount = (event) => {
         setResultsCount(event.target.value);

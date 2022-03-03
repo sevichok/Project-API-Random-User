@@ -1,4 +1,4 @@
-import React, { createContext, useState, useCallback, useContext } from 'react';
+import React, { createContext, useState, useCallback, useContext, useEffect } from 'react';
 
 export const rus = {
     gender: "Пол",
@@ -36,7 +36,11 @@ const LocalesContext = createContext({});
 export const useLocales = () => useContext(LocalesContext);
 
 const LocalesProviders = ({ children }) => {
-    const [lang, setLang] = useState("eng");
+    const [lang, setLang] = useState(localStorage.getItem("lang") ?? "eng");
+
+    useEffect(() => {
+        localStorage.setItem("lang", lang)
+    }, [lang])
 
     const toggleLang = useCallback(() => {
         setLang((prev) => (prev === "eng" ? "rus" : "eng"));
