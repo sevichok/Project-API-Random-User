@@ -36,8 +36,8 @@ const RandomUsers: React.FC = () => {
     []
   );
 
-  const handleChangeGender = useCallback((checked) => {
-    setChecked(!checked);
+  const handleChangeGender = useCallback(() => {
+    setChecked((prev) => !prev);
   }, []);
 
   const handleChangeResultsCount = useCallback((event: SelectChangeEvent) => {
