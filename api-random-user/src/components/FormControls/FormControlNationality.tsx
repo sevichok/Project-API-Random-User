@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { FormControl, Select, InputLabel, MenuItem } from "@mui/material";
 import { useLocales } from "../../providers/LocalesProvider/LocalesProviders";
 import { FormControlNationProps } from "./FormControlProps.Types";
@@ -25,12 +25,12 @@ const FormControlNationality: React.FC<FormControlNationProps> = ({
           {natData?.map((nat) => (
             <MenuItem key={nat.index} value={nat.value}>
               {nat.title}
-            </MenuItem>))
-          }
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </>
   );
 };
 
-export default FormControlNationality;
+export default memo(FormControlNationality);

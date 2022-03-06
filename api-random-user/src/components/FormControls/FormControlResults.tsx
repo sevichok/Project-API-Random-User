@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { FormControl, Select, InputLabel, MenuItem } from "@mui/material";
 import { useLocales } from "../../providers/LocalesProvider/LocalesProviders";
 import { FormControlResultsProps } from "./FormControlProps.Types";
@@ -35,4 +35,4 @@ const FormControlResults: React.FC<FormControlResultsProps> = ({
   );
 };
 
-export default FormControlResults;
+export default memo(FormControlResults);

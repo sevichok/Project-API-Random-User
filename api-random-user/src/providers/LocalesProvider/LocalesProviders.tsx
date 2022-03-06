@@ -46,11 +46,11 @@ const LocalesContext = createContext({
 });
 export const useLocales = () => useContext(LocalesContext);
 
-type LangProp = "RU" | "EN";
+type Lang = "RU" | "EN";
 
 const LocalesProviders: React.FC = ({ children }) => {
-  const [lang, setLang] = useState<LangProp>(
-    JSON.parse(localStorage.getItem("language") ?? '"RU"') as LangProp
+  const [lang, setLang] = useState<Lang>(
+    JSON.parse(localStorage.getItem("language") ?? '"RU"') as Lang
   );
 
   useEffect(() => {
